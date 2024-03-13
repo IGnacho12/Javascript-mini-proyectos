@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Calculadora">
+  <main class="max-w-screen-xl flex flex-col items-center">
+    <article class="p-4 border-white border-2 rounded">
+      <!-- Seccion del resultado -->
+      <div class="rounded">
+        <input class="bg-slate-500 border-white/20 border-2 rounded mb-2" type="text">
+      </div>
+
+      <!-- Seccion de los numeros -->
+      <article class="numeros grid grid-col-4 grid-row-3">
+        <div class="numeros-cal">7</div>
+        <div class="numeros-cal">8</div>
+        <div class="numeros-cal">9</div>
+        <div class="numeros-cal">x</div>
+        <div class="numeros-cal">4</div>
+        <div class="numeros-cal">5</div>
+        <div class="numeros-cal">6</div>
+        <div class="numeros-cal">-</div>
+        <div class="numeros-cal">1</div>
+        <div class="numeros-cal">2</div>
+        <div class="numeros-cal">3</div>
+        <div class="numeros-cal">/</div>
+        <div class="numeros-cal">,</div>
+        <div class="numeros-cal">0</div>
+        <div class="numeros-cal col-span-2">=</div>
+      </article>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  body {
+    height: 100dvh;
+    width: 100%;
+    font-family: "Ubuntu";
+  }
+  main {
+    width: 65%;
+    margin: auto;
+  }
+
+  .numeros {
+
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .numeros-cal {
+    border: 1px solid #4b5563;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    padding: 4px;
+    text-align: center;
+    align-items: center;
+    background-color: #1f2937;
+    color: white;
+    cursor: pointer;
+    margin: 4px;
+  }
+
+  .suma {
+    grid-column: span 2;
+  }
+
+</style>
