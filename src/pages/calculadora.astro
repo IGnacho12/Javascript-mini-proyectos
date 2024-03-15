@@ -3,11 +3,15 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Calculadora">
-  <main class="max-w-screen-xl flex flex-col items-center">
+  <main class="max-w-screen-xl flex flex-col items-center ">
     <article class="p-4 border-white border-2 rounded">
       <!-- Seccion del resultado -->
       <div class="rounded">
-        <input class="bg-slate-500 border-white/20 border-2 rounded mb-2" type="text">
+        <div
+          id="input-calculator"
+          class="flex items-center bg-slate-500 border-white/20 border-2 rounded mb-2 min-h-8 min-w-52 px-2"
+        >
+        </div>
       </div>
 
       <!-- Seccion de los numeros -->
@@ -15,7 +19,7 @@ import Layout from "../layouts/Layout.astro";
         <div class="numeros-cal">7</div>
         <div class="numeros-cal">8</div>
         <div class="numeros-cal">9</div>
-        <div class="numeros-cal">x</div>
+        <div class="numeros-cal">*</div>
         <div class="numeros-cal">4</div>
         <div class="numeros-cal">5</div>
         <div class="numeros-cal">6</div>
@@ -24,9 +28,14 @@ import Layout from "../layouts/Layout.astro";
         <div class="numeros-cal">2</div>
         <div class="numeros-cal">3</div>
         <div class="numeros-cal">/</div>
-        <div class="numeros-cal">,</div>
+        <div class="numeros-cal">.</div>
         <div class="numeros-cal">0</div>
-        <div class="numeros-cal col-span-2">=</div>
+        <div class="numeros-cal">+</div>
+        <div class="numeros-cal row-span-2">=</div>
+        <div class="numeros-cal font-extrabold col-span-2">Clear</div>
+        <div class="keycap-borrar" id="borrar">
+          <img class="size-7" src="/public/Borrar.svg" alt="delete" />
+        </div>
       </article>
     </article>
   </main>
@@ -44,22 +53,34 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .numeros {
-
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .numeros-cal {
+  .numeros-cal, .keycap-borrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 4px;
+    padding: 4px;
+
     border: 1px solid #4b5563;
     font-weight: 500;
     border-radius: 0.25rem;
     font-size: 1rem;
-    padding: 4px;
-    text-align: center;
-    align-items: center;
     background-color: #1f2937;
     color: white;
     cursor: pointer;
-    margin: 4px;
+
+    transition-property: background;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .numeros-cal:hover {
+    background-color: #3d4a5c;
+
+    box-shadow: rgba(32, 142, 245, 0.25) 0px 13px 27px -5px, rgba(68, 33, 228, 0.3) 0px 8px 16px -8px;
   }
 
   .suma {
@@ -67,3 +88,63 @@ import Layout from "../layouts/Layout.astro";
   }
 
 </style>
+
+<script>
+  const KEYCAPS = document.querySelectorAll(".numeros-cal");
+  const ENTRADA = document.querySelector("#input-calculator");
+  const BORRAR = document.querySelector("#borrar")
+
+  const operatores = ["*", "+", "/", "-"];
+
+  // Contador de operadores maximos que puede poner el usuario consecutivamente
+  let contadorDeOperadores = 0;
+
+  // Comprobacion del valor de !ENTRADA -> null
+  if (ENTRADA) {
+    for (let i = 0; i < KEYCAPS.length; i++) {
+      KEYCAPS[i].addEventListener("click", () => {
+        let espacio = "";
+
+        if (operatores.includes(KEYCAPS[i].innerHTML)) {
+          espacio = " ";
+          contadorDeOperadores += 1;
+        } else {
+          contadorDeOperadores = 0;
+        }
+
+        if (KEYCAPS[i].innerHTML === "=") {
+          // Evaluar la expresión matemática completa ingresada por el usuario
+          const expresion = ENTRADA.innerHTML;
+          const resultado = eval(expresion);
+
+          // Mostrar el resultado en la entrada
+          ENTRADA.innerHTML = resultado;
+        } else if (contadorDeOperadores <= 1) {
+          ENTRADA.insertAdjacentText(
+            "beforeend",
+            espacio + KEYCAPS[i].innerHTML + espacio
+          );
+        }
+
+        // Comprobacion del botón "Clear"
+        if (KEYCAPS[i].innerHTML === "Clear") {
+          ENTRADA.innerHTML = "";
+        }
+
+      });
+    }
+    // Comprobación del botón "delete ⨴"
+    BORRAR?.addEventListener('click', () => {
+
+      // Almacenar el string para luego crear otro
+      let str = ENTRADA.innerHTML
+
+      // Crear un nuevo string menos el último carácter del string
+      str = str.slice(0, str.length - 1)
+    
+      // Sustituir los valores creando el efecto "Borrar"
+      ENTRADA.innerHTML = str
+    })
+  }
+
+</script>
