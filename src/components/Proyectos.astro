@@ -1,0 +1,15 @@
+---
+const { href, src, title} = Astro.props;
+---
+
+<article class="max-w-screen-xl flex flex-col">
+  <a
+    href={href}
+    title={title}
+    class="text-xl rounded-lg border-4 self-center px-2 py-1 mt-5 transition-all duration-300
+		hover:bg-slate-200 hover:text-slate-950 hover:font-bold mb-2"
+  >
+    <slot />
+  </a>
+	<img class="rounded m-auto max-w-80" src={src} alt="IMG">
+</article>

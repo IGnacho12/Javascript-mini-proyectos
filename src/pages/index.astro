@@ -3,21 +3,24 @@ import Layout from "../layouts/Layout.astro";
 
 // Fuente Ubunto para títulos y párrafos
 import "@fontsource/ubuntu";
+
+import Proyectos from "../components/Proyectos.astro";
 ---
 
 <Layout title="Welcome to Astro.">
   <main class="max-w-screen-xl flex flex-col">
     <h1 class="text-5xl font-bold self-center">Aprendiendo Javascript</h1>
     <p class="italic text-slate-100/80 max-w-xl mt-2 text-center self-center">
-      La mejor forma de aprender a programar es programando, por eso está
-      página esta destinada a cumplir con esta filosofía llevandose a cabo
-      algunos miniproyectos con Javascript 👇
+      La mejor forma de aprender a programar es programando, por eso está página
+      esta destinada a cumplir con esta filosofía llevandose a cabo algunos
+      miniproyectos con Javascript 👇
     </p>
 
-    <a
-      class="text-xl rounded-lg border-4 self-center px-2 py-1 mt-5 transition-all duration-300
-     hover:bg-slate-200 hover:text-slate-950 hover:font-bold "
-      href="/calculadora" title="Una calculadora simple hecha con tailwind y Javascript">Calculadora simple</a
+    <!-- Calcualdora Simple -->
+    <Proyectos
+      href="/calculadora"
+      title="Calculadora simple con Javascript y Tailwind"
+      src="/public/calculadora.avif">Calculadora simple</Proyectos
     >
   </main>
 </Layout>
@@ -27,9 +30,15 @@ import "@fontsource/ubuntu";
     height: 100dvh;
     width: 100%;
     font-family: "Ubuntu";
+    scrollbar-width: none;
   }
+
   main {
     width: 65%;
     margin: auto;
+  }
+
+  html {
+    scrollbar-width: none;
   }
 </style>

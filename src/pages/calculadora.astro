@@ -5,9 +5,9 @@ import Layout from "../layouts/Layout.astro";
 import "@fontsource-variable/roboto-mono";
 ---
 
-<Layout title="Calculadora">
+<Layout title="Calculadora JS | CSS">
   <main class="max-w-screen-xl flex flex-col items-center">
-    <article class="p-6 border-white border-2 rounded">
+    <article class="p-6 border-white border-2 rounded mt-8">
       <!-- Seccion del resultado -->
       <div class="rounded">
         <div
@@ -35,7 +35,7 @@ import "@fontsource-variable/roboto-mono";
         <div class="numeros-cal">0</div>
         <div class="numeros-cal">+</div>
         <div class="numeros-cal row-span-2">=</div>
-        <div class="numeros-cal font-extrabold col-span-2">Clear</div>
+        <div class="numeros-cal font-extrabold col-span-2">Borrar</div>
         <div class="keycap-borrar" id="borrar">
           <img class="size-7" src="/Borrar.svg" alt="delete" />
         </div>
@@ -128,8 +128,8 @@ import "@fontsource-variable/roboto-mono";
           );
         }
 
-        // Comprobacion del botón "Clear"
-        if (KEYCAPS[i].innerHTML === "Clear") {
+        // Comprobacion del botón "Borrar"
+        if (KEYCAPS[i].innerHTML === "Borrar") {
           ENTRADA.innerHTML = "";
         }
       });
