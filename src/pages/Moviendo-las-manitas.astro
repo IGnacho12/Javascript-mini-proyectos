@@ -1,0 +1,154 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Fuente Ubunto para títulos y párrafos
+import "@fontsource/ubuntu";
+
+// Home
+import Inicio from "../components/Inicio.astro";
+---
+
+<Layout title="mono typeando">
+  <Inicio />
+  <main class="max-w-screen-xl flex flex-col items-center">
+    <input
+      id="input-secreto"
+      type="text"
+      class="text-black absolute bottom-6"
+    />
+
+    <div id="barra" class="w-2/3 rounded-full h-2.5 bg-gray-700 mt-2 hidden">
+      <div class="bg-blue-600 h-2.5 rounded-full completarTiempo"></div>
+    </div>
+
+    <button
+      id="run"
+      type="button"
+      class="mt-20 focus:outline-none focus:ring-4 font-medium rounded-full text-2xl px-5 py-2.5 text-center me-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
+      >Empezar a jugar</button
+    >
+
+    <div
+      id="palabra-container"
+      class="font-semibold text-2xl p-2 mt-28 w-2/3 text-pretty"
+    >
+    </div>
+  </main>
+</Layout>
+
+<style>
+  body {
+    height: 100dvh;
+    width: 100%;
+    font-family: "Ubuntu";
+    scrollbar-width: none;
+  }
+
+  main {
+    width: 65%;
+    margin: auto;
+  }
+
+  html {
+    scrollbar-width: none;
+  }
+
+  /* Propiedades de la animación de la barra de progreso */
+  .completarTiempo {
+    animation-duration: var(--tiempo);
+    animation-name: completarBarra;
+    animation-fill-mode: forwards;
+    animation-timing-function: linear;
+  }
+
+  /* Animacián de la barra de progreso */
+  @keyframes completarBarra {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Abreviación document.querySelector()
+  function $(selector: string) {
+    return document.querySelector(selector) as HTMLElement;
+  }
+
+  import { PALABRAS_POR_DEFECTO } from "../../public/diccionario";
+  const TIEMPO_DE_JUEGO = 5;
+  const RUN_BUTTON = $("#run");
+  const PALABRA_CONTAINER = $("#palabra-container");
+  const INPUT_SECRETO = $("#input-secreto");
+  let indiceLetraActual = 0;
+  let letrasPalabraActual: string[] = [];
+
+  // Funciones
+
+  // Crear Una Nueva Palabra
+  function nuevaPalabra() {
+    let ESPACIO = "";
+
+    for (let i = 0; i <= 20; i++) {
+      if (i < 5) {
+        ESPACIO = " ";
+      }
+
+      const nPalabraElegida = Math.floor(
+        Math.random() * PALABRAS_POR_DEFECTO.length - 1
+      );
+      const PalabraElegida = PALABRAS_POR_DEFECTO[nPalabraElegida] + ESPACIO;
+      console.log(PalabraElegida);
+
+      for (let i = 0; i < PalabraElegida.length; i++) {
+        const letraElement = document.createElement("span");
+        letraElement.textContent = PalabraElegida[i];
+        PALABRA_CONTAINER.appendChild(letraElement);
+        letrasPalabraActual.push(PalabraElegida[i]);
+      }
+    }
+  }
+
+  // Eventos a escuchar
+  RUN_BUTTON?.addEventListener("click", () => {
+    const barra = $("#barra");
+
+    if (barra) {
+      barra.style.display = "block";
+      RUN_BUTTON.style.display = "none";
+      nuevaPalabra();
+    }
+  });
+
+  // Detectar la teclas presionadas por el usuario
+  document.querySelector("input")?.addEventListener("keydown", (event) => {
+    let LetraPresionadaVariable = event.key;
+
+    if (indiceLetraActual < letrasPalabraActual.length) {
+      const letraActual = letrasPalabraActual[indiceLetraActual];
+
+      if (LetraPresionadaVariable === letraActual) {
+        console.log("✔️" + LetraPresionadaVariable);
+        indiceLetraActual++;
+
+        // Acceder al span correcto y cambiarle el color a la letra
+      } else {
+        console.log("❌" + LetraPresionadaVariable);
+        // Realiza las acciones necesarias cuando la letra es incorrecta
+      }
+    }
+  });
+
+  // Capturar siempre las teclas del usuario
+  INPUT_SECRETO.focus();
+  INPUT_SECRETO.addEventListener("blur", () => INPUT_SECRETO.focus());
+
+  // Ejecución
+  document.documentElement.style.setProperty(
+    "--tiempo",
+    +TIEMPO_DE_JUEGO + "s"
+  );
+</script>

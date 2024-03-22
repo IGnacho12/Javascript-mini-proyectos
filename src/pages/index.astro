@@ -8,7 +8,9 @@ import Proyectos from "../components/Proyectos.astro";
 ---
 
 <Layout title="Welcome to Astro.">
+
   <main class="max-w-screen-xl flex flex-col">
+    
     <h1 class="text-5xl font-bold self-center">Aprendiendo Javascript</h1>
     <p class="italic text-slate-100/80 max-w-xl mt-2 text-center self-center">
       La mejor forma de aprender a programar es programando, por eso está página
@@ -21,6 +23,13 @@ import Proyectos from "../components/Proyectos.astro";
       href="/calculadora"
       title="Calculadora simple con Javascript y Tailwind"
       src="/public/calculadora.avif">Calculadora simple</Proyectos
+    >
+
+    <!-- Juego de Escribir -->
+    <Proyectos
+      href="/Moviendo-las-manitas"
+      title="Juego para practicar y obtener tu velocidad de escritura"
+      src="/public/wasd.png">Un mono typeando</Proyectos
     >
   </main>
 </Layout>
